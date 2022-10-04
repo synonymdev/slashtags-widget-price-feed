@@ -1,8 +1,9 @@
-const BitfinexPriceFeeds = require('./bitfinex-price-feed')
+import BitfinexPriceFeeds from './bitfinex-price-feed.js'
+import fs from 'fs'
 
 // config
-const config = require('./schemas/config.json')
-const schema = require('./schemas/slashfeed.json')
+const config = JSON.parse(fs.readFileSync('./src/schemas/config.json', 'utf-8'))
+const schema = JSON.parse(fs.readFileSync('./src/schemas/slashfeed.json', 'utf-8'))
 
 // create the new feed
 const feeds = new BitfinexPriceFeeds(config, schema)

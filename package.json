@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@synonymdev/feeds": "^1.0.0-alpha.2",
-    "axios": "^0.27.2",
-    "hypercore": "^10.3.2"
+    "@synonymdev/slashtags-url": "^1.0.0-alpha.2",
+    "axios": "^0.27.2"
   }
 }
