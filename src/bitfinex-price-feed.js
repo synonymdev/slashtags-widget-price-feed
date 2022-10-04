@@ -1,8 +1,9 @@
-const Feeds = require('@synonymdev/feeds')
-const axios = require('axios')
-const logger = require('./logger')
+import Feeds from '@synonymdev/feeds'
+import { format, encode } from '@synonymdev/slashtags-url'
+import axios from 'axios'
+import logger from './logger.js'
 
-class BitfinexPriceFeeds {
+export default class BitfinexPriceFeeds {
     constructor(config, schema) {
         this.config = config
         this.schema = schema
@@ -23,10 +24,13 @@ class BitfinexPriceFeeds {
         const driveKeys = await this.feedStorage.feed(this.driveId, { announce: true })
 
         // this is the hyperdrive that will contain all the feed data
-        logger.info({
-            key: driveKeys.key.toString('hex'),
-            encryptionKey: driveKeys.encryptionKey.toString('hex'),
-        })
+        const url = format(driveKeys.key, { protocol: 'slashfeed:', fragment: { encryptionKey: encode(driveKeys.encryptionKey) } })
+        logger.info(this.schema.name)
+        logger.info(url)
+
+        for (let t of this.schema.tickers) {
+            logger.info(`Tracking price of ${t.base}/${t.quote} : ${t.name}`)
+        }
     }
 
     async start() {
@@ -154,6 +158,3 @@ class BitfinexPriceFeeds {
         return v;
     }
 }
-
-
-module.exports = BitfinexPriceFeeds
