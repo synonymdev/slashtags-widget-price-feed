@@ -1,6 +1,6 @@
 {
     "name": "Bitcoin Price",
-    "description": "Current and historical price information for Bitcoin in a selection of fiat currencies",
+    "description": "Check the latest Bitcoin exchange rates for a variety of fiat currencies.",
     "icons": {
         "48": "/images/bitfinex.svg",
         "96": "/images/bitfinex.svg",
