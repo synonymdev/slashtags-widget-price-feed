@@ -15,7 +15,12 @@ feeds/
     BTCUSD-30d - an array of the last 30 daily candle closes (covers 1 month)
 ```
 
-Files ending `-last` will contain array containing the unix timestamp as string, the last price truncated to the integer part as string and the hex-encoded signature of the SHA256 hash of `<timestamp>|<last_price>` encoded as 64bit little endian bytes. 
+Files ending `-last` will contain array of 3 elements, defined as such: 
+
+1. the unix timestamp as string
+2. the last price truncated to the integer part as string  
+3. the hex-encoded signature of the SHA256 hash of `<timestamp>|<last_price>` encoded as 64bit little endian bytes. 
+
 For example `['1670344382195','2322400','11ecb5b066a2fd44d8f50d4e30a1fc53a35a3e560d26a1bcc8a122d261af5ad730def5a4aacb6b106d3c000a0cf4282788c24285d9689b865661a80af31f4b8a']`.
 
 Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest value first. 
