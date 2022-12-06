@@ -17,7 +17,8 @@
                 "last": "/feed/BTCUSD-last",
                 "24h": "/feed/BTCUSD-24h",
                 "7d": "/feed/BTCUSD-7d",
-                "30d": "/feed/BTCUSD-30d"
+                "30d": "/feed/BTCUSD-30d",
+                "lastSigned": "/feed/BTCUSD-last-signed"
             },
             "base": "BTC",
             "quote": "USD",
