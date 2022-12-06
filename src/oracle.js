@@ -1,10 +1,11 @@
+import crypto from 'crypto';
 import { ECPairFactory } from 'ecpair'
 import * as ecc from 'tiny-secp256k1'
 const ECPair = ECPairFactory(ecc)
 
 export default class Oracle {
       constructor(privateKeyHex) {
-            if (!keyPair) 
+            if (!privateKeyHex) 
                   throw new Error('Must provide a private key hex encoded')
 
             const keyPair = ECPair.fromPrivateKey(Buffer.from(privateKeyHex, 'hex'))
@@ -22,7 +23,7 @@ export default class Oracle {
             const hash = crypto.createHash('sha256').update(message).digest()
             // sign schnorr
             const signature = this.keyPair.signSchnorr(hash)
-            return signature
+            return signature.toString('hex')
       }
 
 }
