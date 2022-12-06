@@ -68,7 +68,7 @@ export default class BitfinexPriceFeeds {
 
         // Do all the live prices - these are high priority, so do them all first
         for (let ticker of this.schema.fields) {
-            await this._updateLivePrice(ticker, timestamp);
+            await this._updateLivePrice(ticker, timestamp)
         }
 
         // Do the hourly, weekly and monthly feeds
