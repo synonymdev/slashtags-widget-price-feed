@@ -6,7 +6,7 @@
         "96": "/images/bitfinex.svg",
         "104": "/images/bitfinex.svg"
     },
-    "type": "exchange.price_history",
+    "type": "exchange.price_history_signed",
     "version": "0.0.1",
     "fields": [
         {
@@ -17,8 +17,7 @@
                 "last": "/feed/BTCUSD-last",
                 "24h": "/feed/BTCUSD-24h",
                 "7d": "/feed/BTCUSD-7d",
-                "30d": "/feed/BTCUSD-30d",
-                "lastSigned": "/feed/BTCUSD-last-signed"
+                "30d": "/feed/BTCUSD-30d"
             },
             "base": "BTC",
             "quote": "USD",

@@ -64,11 +64,10 @@ export default class BitfinexPriceFeeds {
         const now = new Date()
         const hour = now.getHours()
         const minute = now.getMinutes()
-        const timestamp = now.getTime()
 
         // Do all the live prices - these are high priority, so do them all first
         for (let ticker of this.schema.fields) {
-            await this._updateLivePrice(ticker, timestamp)
+            await this._updateLivePrice(ticker)
         }
 
         // Do the hourly, weekly and monthly feeds
@@ -91,19 +90,22 @@ export default class BitfinexPriceFeeds {
         this._setMinuteTimer()
     }
 
-    async _updateLivePrice(ticker, timestamp) {
+    async _updateLivePrice(ticker) {
         try {
             // update the feed
             // https://api-pub.bitfinex.com/v2/ticker/tBTCUSD (7th value is last price)
             const latest = await axios.get(`https://api-pub.bitfinex.com/v2/ticker/${ticker.ticker}`)
             const price = this._formatPrice(latest.data[6])
-            await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last`, price)
 
-            // if we have the timestammp, we append a signature of the <timestamp>|<last price> to the feed
-            if (!this.oracle || !timestamp) return
-            const signature = this.oracle.priceAttestation({ price, timestamp })
-            const attestation = [timestamp, price, signature]
-            await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last-signed`, attestation)
+            const timestamp = new Date().getTime()
+
+            // make a signature of the <timestamp>|<last price>
+            const attestation = this.oracle.priceAttestation({ price, timestamp })
+
+            logger.debug(`${ticker.base}/${ticker.quote}: ${attestation}`)
+            
+            // attestation is an array [timestamp, price, signature]
+            await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last`, attestation)
         } catch (err) {
             logger.error(err)
         }

@@ -14,16 +14,20 @@ export default class Oracle {
       }
 
       priceAttestation({ price, timestamp }) {
+            // Sanitize the price and timestamp
+            const timestampInt = Math.trunc(timestamp);
+            const priceInt = Math.trunc(price);
             // Concatenate timestamp and the price (no decimals)
             // 8 bytes for timestamp, 8 bytes for price
-            const timpestampLE64 = uint64LE(Math.trunc(timestamp))
-            const priceLE64 = uint64LE(Math.trunc(price))
+            const timpestampLE64 = uint64LE(timestampInt)
+            const priceLE64 = uint64LE(priceInt)
             const message = Buffer.from([...timpestampLE64, ...priceLE64])
             // make a sha256 of the the message
             const hash = crypto.createHash('sha256').update(message).digest()
             // sign schnorr
             const signature = this.keyPair.signSchnorr(hash)
-            return signature.toString('hex')
+
+            return [timestampInt.toString(), priceInt.toString(), signature.toString('hex')]
       }
 
 }
