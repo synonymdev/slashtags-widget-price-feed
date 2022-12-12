@@ -27,3 +27,38 @@ Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest v
 For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
 
 The public key and encryption key of the drive are published to the logs when the app is started.
+
+## Read from a Browser
+
+To use this project as a developer, you will need to have [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed on your machine.
+
+First run the SlashFeed
+
+```sh
+export ORACLE_PRIVATE_KEY=7b2e74fbbeba4cc82ce3cb0468c97ac3ca0da7bc426169e1ae93109ef37fc7c2
+node src/index.js
+```
+
+Move to the `./examples/browser` folder
+
+````
+cd ./examples/browser
+````
+
+To install the project dependencies, run the following command:
+
+```sh
+yarn install
+```
+
+To start the relay, run the following command:
+
+```sh
+yarn relay
+```
+
+To serve the app, run the following command:
+
+```sh
+yarn serve
+```
