@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "browser": "npx http-server -c-1 ./examples/browser",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +13,8 @@
   "dependencies": {
     "@synonymdev/feeds": "^1.0.0-alpha.5",
     "@synonymdev/slashtags-url": "^1.0.0-alpha.2",
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "ecpair": "^2.1.0",
+    "tiny-secp256k1": "^2.2.1"
   }
 }

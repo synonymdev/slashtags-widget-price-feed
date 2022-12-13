@@ -5,12 +5,13 @@ import axios from 'axios'
 import logger from './logger.js'
 
 export default class BitfinexPriceFeeds {
-    constructor(config, schema) {
+    constructor(config, schema, oracle) {
         this.config = config
         this.schema = schema
         this.minuteTimer = null
         this.feedStorage = null
         this.driveId = config.driveId
+        this.oracle = oracle
     }
 
     async init() {
@@ -95,7 +96,16 @@ export default class BitfinexPriceFeeds {
             // https://api-pub.bitfinex.com/v2/ticker/tBTCUSD (7th value is last price)
             const latest = await axios.get(`https://api-pub.bitfinex.com/v2/ticker/${ticker.ticker}`)
             const price = this._formatPrice(latest.data[6])
-            await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last`, price)
+
+            const timestamp = new Date().getTime()
+
+            // make a signature of the <timestamp>|<last price>
+            const attestation = this.oracle.priceAttestation({ price, timestamp })
+
+            logger.debug(`${ticker.base}/${ticker.quote}: ${attestation}`)
+            
+            // attestation is an array [timestamp, price, signature]
+            await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last`, attestation)
         } catch (err) {
             logger.error(err)
         }
