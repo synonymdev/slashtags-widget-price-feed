@@ -6,7 +6,7 @@
         "96": "/images/bitfinex.svg",
         "104": "/images/bitfinex.svg"
     },
-    "type": "exchange.price_history_signed",
+    "type": "exchange.price_history_timestamped",
     "version": "0.0.1",
     "fields": [
         {

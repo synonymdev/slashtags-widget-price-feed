@@ -15,7 +15,18 @@ feeds/
     BTCUSD-30d - an array of the last 30 daily candle closes (covers 1 month)
 ```
 
-Files ending `-last` will contain array of 3 elements, defined as such: 
+### Default mode
+By default the files ending `-last` will contain array of 3 elements, defined as such: 
+1. the unix timestamp as string
+2. the last price truncated to the integer part as string  
+
+For example `['1670344382195','2322400']`.
+
+Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest value first. 
+For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
+
+### Signing mode
+If `SIGNATORY_PRIVATE_KEY` is passed as environment variable, the files ending `-last` will contain array of 3 elements, defined as such: 
 
 1. the unix timestamp as string
 2. the last price truncated to the integer part as string  

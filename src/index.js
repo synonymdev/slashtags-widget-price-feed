@@ -1,23 +1,23 @@
 import BitfinexPriceFeeds from './bitfinex-price-feed.js'
 import fs from 'fs'
-import Oracle from './oracle.js'
-
-const PRIVATE_KEY = process.env.ORACLE_PRIVATE_KEY
-if (!PRIVATE_KEY) {
-  console.error('Missing ORACLE_PRIVATE_KEY env var');
-  process.exit(1);
-}
-
+import Signatory from './signatory.js'
 
 // config
 const config = JSON.parse(fs.readFileSync('./src/schemas/config.json', 'utf-8'))
 const schema = JSON.parse(fs.readFileSync('./src/schemas/slashfeed.json', 'utf-8'))
 
-// create a new oracle if private key is given
-const oracle = new Oracle(PRIVATE_KEY)
+let signatory
+const PRIVATE_KEY = process.env.SIGNATORY_PRIVATE_KEY
+if (PRIVATE_KEY) {
+  // create a new signatory if private key is given
+  signatory = new Signatory(PRIVATE_KEY)
+
+  schema.type = 'exchange.price_history_timestamped_signed'
+  config.storagePath = './data-signed'
+}
 
 // create the new feed
-const feeds = new BitfinexPriceFeeds(config, schema, oracle)
+const feeds = new BitfinexPriceFeeds(config, schema, signatory)
 
 // get it started
 feeds.init()
