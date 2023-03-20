@@ -23,7 +23,7 @@ By default the files ending `-last` will contain array of 3 elements, defined as
 For example `['1670344382195','2322400']`.
 
 Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest value first. 
-For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
+For example, `[ ['1670344382195', '1234.45'], ['1670344382195', '1245.78'], ['1670344382195', '1267.78'], ... ]`
 
 ### Signing mode
 If `SIGNATORY_PRIVATE_KEY` is passed as environment variable, the files ending `-last` will contain array of 3 elements, defined as such: 
@@ -35,6 +35,6 @@ If `SIGNATORY_PRIVATE_KEY` is passed as environment variable, the files ending `
 For example `['1670344382195','2322400','11ecb5b066a2fd44d8f50d4e30a1fc53a35a3e560d26a1bcc8a122d261af5ad730def5a4aacb6b106d3c000a0cf4282788c24285d9689b865661a80af31f4b8a']`.
 
 Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest value first. 
-For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
+For example, `[ ['1670344382195', '1234.45'], ['1670344382195', '1245.78'], ['1670344382195', '1267.78'], ... ]`
 
 The public key and encryption key of the drive are published to the logs when the app is started.

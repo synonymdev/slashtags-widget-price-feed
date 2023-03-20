@@ -118,7 +118,7 @@ export default class BitfinexPriceFeeds {
             const hourly = await axios.get(`https://api-pub.bitfinex.com/v2/candles/trade:1h:${ticker.ticker}/hist?limit=25`)
             const close = hourly.data
                 .sort((a, b) => a[0] - b[0])
-                .map((c) => this._formatPrice(c[2]))
+                .map((c) => [c[0], this._formatPrice(c[2])])
                 .slice(0, 24)
             await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-24h`, close)
         } catch (err) {
@@ -133,7 +133,7 @@ export default class BitfinexPriceFeeds {
             const week = recent.data
                 .slice(1, 15)
                 .sort((a, b) => a[0] - b[0])
-                .map((c) => this._formatPrice(c[2]))
+                .map((c) => [c[0], this._formatPrice(c[2])])
 
             // update the feed. 7d can have 14 values (one every 12h), 30d can have 30 values (one per day)
             await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-7d`, week)
@@ -143,7 +143,7 @@ export default class BitfinexPriceFeeds {
             const month = dailyCandles.data
                 .slice(1, 31)
                 .sort((a, b) => a[0] - b[0])
-                .map((c) => this._formatPrice(c[2]))
+                .map((c) => [c[0], this._formatPrice(c[2])])
 
             await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-30d`, month)
         } catch (err) {
