@@ -16,7 +16,7 @@ describe('Price feed', () => {
     feeds.init()
   })
 
-  after(async function() {
+  after(async function () {
     this.timeout(10000)
     await feeds.feedStorage.close()
     nock.cleanAll()
@@ -30,7 +30,7 @@ describe('Price feed', () => {
     })
 
     it('gets stored in hyperdrive', async () => {
-      let res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-last`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-last`)
 
       assert.equal(res.length, 2)
       assert(res[0] - (new Date().getTime()) < 0)
@@ -45,7 +45,7 @@ describe('Price feed', () => {
     })
 
     it('gets stored in hyperdrive', async () => {
-      let res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-24h`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-24h`)
 
       assert.equal(res.length, 24)
       const sortedResponse = mocks.ONE_DAY_RESPONSE.sort((a, b) => a[0] - b[0])
@@ -65,7 +65,7 @@ describe('Price feed', () => {
     })
 
     it('is stored on hyperdrive as a bi-daily entries for last 7 days', async () => {
-      let res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-7d`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-7d`)
 
       assert.equal(res.length, 14)
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_12H.slice(1, 15).sort((a, b) => a[0] - b[0])
@@ -84,7 +84,7 @@ describe('Price feed', () => {
     })
 
     it('is stored on hyperdrive as a daily entries for last 30 days', async () => {
-      let res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-30d`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-30d`)
       assert.equal(res.length, 30)
 
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_1D.slice(1, 31).sort((a, b) => a[0] - b[0])
