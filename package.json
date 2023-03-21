@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/"
   },
   "author": "",
   "license": "MIT",
@@ -13,5 +13,10 @@
     "@synonymdev/feeds": "^1.0.0-alpha.5",
     "@synonymdev/slashtags-url": "^1.0.0-alpha.2",
     "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "nock": "^13.3.0",
+    "random-access-memory": "^6.1.0"
   }
 }
