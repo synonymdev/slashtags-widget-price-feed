@@ -15,13 +15,16 @@ feeds/
     BTCUSD-30d - an array of the last 30 daily candle closes (covers 1 month)
 ```
 
-The files ending `-last` will contain array of 2 elements, defined as such: 
-1. the unix timestamp as string
+
+Files ending `-last` will contain a single string of the last price. For example '1234.56'.
+
+Files ending `-timestamped_price` will contain array of 2 elements, defined as such: 
+1. the unix timestamp as an integer
 2. the last price truncated to the integer part as string  
 
-For example `['1670344382195','2322400']`.
+For example `[1670344382195,'2322400']`.
 
 Files ending `-24h`, `-7d` and `-30d` will contain an array of strings. Oldest value first. 
-For example, `[ ['1670344382195', '1234.45'], ['1670344382195', '1245.78'], ['1670344382195', '1267.78'], ... ]`
+For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
 
 The public key and encryption key of the drive are published to the logs when the app is started.

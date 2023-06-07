@@ -29,10 +29,18 @@ describe('Price feed', () => {
       await feeds._updateLivePrice(mocks.testTicker)
     })
 
-    it('gets stored in hyperdrive', async () => {
+    it('-last gets stored in hyperdrive', async () => {
       const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-last`)
 
+      assert(res - (new Date().getTime()) < 0)
+      assert.equal(res, feeds._formatPrice(mocks.LAST_RESPONSE[6]))
+    })
+
+    it('-timestamped_price gets stored in hyperdrive', async () => {
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-timestamped_price`)
+
       assert.equal(res.length, 2)
+      assert.ok(typeof res[0] === 'number')
       assert(res[0] - (new Date().getTime()) < 0)
       assert.equal(res[1], feeds._formatPrice(mocks.LAST_RESPONSE[6]))
     })
@@ -50,9 +58,7 @@ describe('Price feed', () => {
       assert.equal(res.length, 24)
       const sortedResponse = mocks.ONE_DAY_RESPONSE.sort((a, b) => a[0] - b[0])
       for (let i = 0; i < res.length; i++) {
-        assert.equal(res[i].length, 2)
-        assert.equal(res[i][0], sortedResponse[i][0])
-        assert.equal(res[i][1], feeds._formatPrice(sortedResponse[i][2]))
+        assert.equal(res[i], feeds._formatPrice(sortedResponse[i][2]))
       }
     })
   })
@@ -70,8 +76,7 @@ describe('Price feed', () => {
       assert.equal(res.length, 14)
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_12H.slice(1, 15).sort((a, b) => a[0] - b[0])
       for (let i = 0; i < res.length; i++) {
-        assert.equal(res[i][0], sortedResponse[i][0])
-        assert.equal(res[i][1], feeds._formatPrice(sortedResponse[i][2]))
+        assert.equal(res[i], feeds._formatPrice(sortedResponse[i][2]))
       }
     })
   })
@@ -89,9 +94,9 @@ describe('Price feed', () => {
 
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_1D.slice(1, 31).sort((a, b) => a[0] - b[0])
       for (let i = 0; i < res.length; i++) {
-        assert.equal(res[i][0], sortedResponse[i][0])
-        assert.equal(res[i][1], feeds._formatPrice(sortedResponse[i][2]))
+        assert.equal(res[i], feeds._formatPrice(sortedResponse[i][2]))
       }
     })
   })
 })
+
