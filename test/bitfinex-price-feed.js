@@ -53,7 +53,7 @@ describe('Price feed', () => {
     })
 
     it('gets stored in hyperdrive', async () => {
-      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-24h`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-1D`)
 
       assert.equal(res.length, 24)
       const sortedResponse = mocks.ONE_DAY_RESPONSE.sort((a, b) => a[0] - b[0])
@@ -71,7 +71,7 @@ describe('Price feed', () => {
     })
 
     it('is stored on hyperdrive as a bi-daily entries for last 7 days', async () => {
-      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-7d`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-1W`)
 
       assert.equal(res.length, 14)
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_12H.slice(1, 15).sort((a, b) => a[0] - b[0])
@@ -89,7 +89,7 @@ describe('Price feed', () => {
     })
 
     it('is stored on hyperdrive as a daily entries for last 30 days', async () => {
-      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-30d`)
+      const res = await feeds.feedStorage.get(config.driveId, `${mocks.testTicker.base}${mocks.testTicker.quote}-1M`)
       assert.equal(res.length, 30)
 
       const sortedResponse = mocks.ONE_WEEK_RESPONSE_1D.slice(1, 31).sort((a, b) => a[0] - b[0])

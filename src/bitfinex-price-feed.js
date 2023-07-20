@@ -72,14 +72,14 @@ export default class BitfinexPriceFeeds {
     // Do the hourly, weekly and monthly feeds
     // time to do the hourly update (when it's 0 minutes past the hour)
     if (minute === 0) {
-      logger.info('Refresh 24h chart')
+      logger.info('Refresh 1D chart')
       for (const ticker of this.schema.fields) {
         await this._updateOneDayHistory(ticker)
       }
     }
 
     if (minute === 0 && hour === 0) {
-      logger.info('Refresh 7d and 30d chart')
+      logger.info('Refresh 1W and 1M chart')
       for (const ticker of this.schema.fields) {
         await this._updateOneWeekHistory(ticker)
       }
@@ -97,6 +97,8 @@ export default class BitfinexPriceFeeds {
       const price = this._formatPrice(latest.data[6])
       const timestampedPrice = [Date.now(), price]
 
+      logger.info(`Updating live price: [${ticker.ticker}: ${price}]`)
+
       await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-last`, price)
       await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-timestamped_price`, timestampedPrice)
     } catch (err) {
@@ -113,7 +115,7 @@ export default class BitfinexPriceFeeds {
         .sort((a, b) => a[0] - b[0])
         .map((c) => this._formatPrice(c[2]))
         .slice(0, 24)
-      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-24h`, close)
+      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-1D`, close)
     } catch (err) {
       logger.error(err)
     }
@@ -128,8 +130,8 @@ export default class BitfinexPriceFeeds {
         .sort((a, b) => a[0] - b[0])
         .map((c) => this._formatPrice(c[2]))
 
-      // update the feed. 7d can have 14 values (one every 12h), 30d can have 30 values (one per day)
-      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-7d`, week)
+      // update the feed. 1W can have 14 values (one every 12h), 1M can have 30 values (one per day)
+      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-1W`, week)
 
       // 30 day (keep only the daily candles)
       const dailyCandles = await axios.get(`https://api-pub.bitfinex.com/v2/candles/trade:1D:${ticker.ticker}/hist?limit=31`)
@@ -138,7 +140,7 @@ export default class BitfinexPriceFeeds {
         .sort((a, b) => a[0] - b[0])
         .map((c) => this._formatPrice(c[2]))
 
-      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-30d`, month)
+      await this.feedStorage.update(this.driveId, `${ticker.base}${ticker.quote}-1M`, month)
     } catch (err) {
       logger.error(err)
     }
