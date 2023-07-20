@@ -1,83 +1,83 @@
 {
-    "name": "Bitcoin Price",
-    "description": "Check the latest Bitcoin exchange rates for a variety of fiat currencies.",
-    "icons": {
-        "48": "/images/bitfinex.svg",
-        "96": "/images/bitfinex.svg",
-        "104": "/images/bitfinex.svg"
+  "name": "Bitcoin Price",
+  "description": "Check the latest Bitcoin exchange rates for a variety of fiat currencies.",
+  "icons": {
+    "48": "/images/bitfinex.svg",
+    "96": "/images/bitfinex.svg",
+    "104": "/images/bitfinex.svg"
+  },
+  "type": "exchange.price_history_timestamped",
+  "version": "0.0.1",
+  "fields": [
+    {
+      "name": "BTC/USD",
+      "description": "Bitcoin / US Dollar price history",
+      "main": "/feed/BTCUSD-last",
+      "files": {
+        "last": "/feed/BTCUSD-last",
+        "24h": "/feed/BTCUSD-24h",
+        "7d": "/feed/BTCUSD-7d",
+        "30d": "/feed/BTCUSD-30d"
+      },
+      "base": "BTC",
+      "quote": "USD",
+      "ticker": "tBTCUSD"
     },
-    "type": "exchange.price_history_timestamped",
-    "version": "0.0.1",
-    "fields": [
-        {
-            "name": "BTC/USD",
-            "description": "Bitcoin / US Dollar price history",
-            "main": "/feed/BTCUSD-last",
-            "files": {
-                "last": "/feed/BTCUSD-last",
-                "24h": "/feed/BTCUSD-24h",
-                "7d": "/feed/BTCUSD-7d",
-                "30d": "/feed/BTCUSD-30d"
-            },
-            "base": "BTC",
-            "quote": "USD",
-            "ticker": "tBTCUSD"
-        },
-        {
-            "name": "BTC/EUR",
-            "description": "Bitcoin / Euro price history",
-            "main": "/feed/BTCEUR-last",
-            "files": {
-                "last": "/feed/BTCEUR-last",
-                "24h": "/feed/BTCEUR-24h",
-                "7d": "/feed/BTCEUR-7d",
-                "30d": "/feed/BTCEUR-30d"
-            },
-            "base": "BTC",
-            "quote": "EUR",
-            "ticker": "tBTCEUR"
-        },
-        {
-            "name": "BTC/USDT",
-            "description": "Bitcoin / Tether price history",
-            "main": "/feed/BTCUST-last",
-            "files": {
-                "last": "/feed/BTCUST-last",
-                "24h": "/feed/BTCUST-24h",
-                "7d": "/feed/BTCUST-7d",
-                "30d": "/feed/BTCUST-30d"
-            },
-            "base": "BTC",
-            "quote": "UST",
-            "ticker": "tBTCUST"
-        },
-        {
-            "name": "BTC/GBP",
-            "description": "Bitcoin / British Pound price history",
-            "main": "/feed/BTCGBP-last",
-            "files": {
-                "last": "/feed/BTCGBP-last",
-                "24h": "/feed/BTCGBP-24h",
-                "7d": "/feed/BTCGBP-7d",
-                "30d": "/feed/BTCGBP-30d"
-            },
-            "base": "BTC",
-            "quote": "GBP",
-            "ticker": "tBTCGBP"
-        },
-        {
-            "name": "BTC/JPY",
-            "description": "Bitcoin / Japanese Yen price history",
-            "main": "/feed/BTCJPY-last",
-            "files": {
-                "last": "/feed/BTCJPY-last",
-                "24h": "/feed/BTCJPY-24h",
-                "7d": "/feed/BTCJPY-7d",
-                "30d": "/feed/BTCJPY-30d"
-            },
-            "base": "BTC",
-            "quote": "JPY",
-            "ticker": "tBTCJPY"
-        }
-    ]
+    {
+      "name": "BTC/EUR",
+      "description": "Bitcoin / Euro price history",
+      "main": "/feed/BTCEUR-last",
+      "files": {
+        "last": "/feed/BTCEUR-last",
+        "24h": "/feed/BTCEUR-24h",
+        "7d": "/feed/BTCEUR-7d",
+        "30d": "/feed/BTCEUR-30d"
+      },
+      "base": "BTC",
+      "quote": "EUR",
+      "ticker": "tBTCEUR"
+    },
+    {
+      "name": "BTC/USDT",
+      "description": "Bitcoin / Tether price history",
+      "main": "/feed/BTCUST-last",
+      "files": {
+        "last": "/feed/BTCUST-last",
+        "24h": "/feed/BTCUST-24h",
+        "7d": "/feed/BTCUST-7d",
+        "30d": "/feed/BTCUST-30d"
+      },
+      "base": "BTC",
+      "quote": "UST",
+      "ticker": "tBTCUST"
+    },
+    {
+      "name": "BTC/GBP",
+      "description": "Bitcoin / British Pound price history",
+      "main": "/feed/BTCGBP-last",
+      "files": {
+        "last": "/feed/BTCGBP-last",
+        "24h": "/feed/BTCGBP-24h",
+        "7d": "/feed/BTCGBP-7d",
+        "30d": "/feed/BTCGBP-30d"
+      },
+      "base": "BTC",
+      "quote": "GBP",
+      "ticker": "tBTCGBP"
+    },
+    {
+      "name": "BTC/JPY",
+      "description": "Bitcoin / Japanese Yen price history",
+      "main": "/feed/BTCJPY-last",
+      "files": {
+        "last": "/feed/BTCJPY-last",
+        "24h": "/feed/BTCJPY-24h",
+        "7d": "/feed/BTCJPY-7d",
+        "30d": "/feed/BTCJPY-30d"
+      },
+      "base": "BTC",
+      "quote": "JPY",
+      "ticker": "tBTCJPY"
+    }
+  ]
 }

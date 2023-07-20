@@ -5,7 +5,7 @@ import axios from 'axios'
 import logger from './logger.js'
 
 export default class BitfinexPriceFeeds {
-  constructor (config, schema) {
+  constructor(config, schema) {
     this.config = config
     this.schema = schema
     this.minuteTimer = null
@@ -13,7 +13,7 @@ export default class BitfinexPriceFeeds {
     this.driveId = config.driveId
   }
 
-  async init () {
+  async init() {
     if (this.feedStorage) {
       throw new Error('Init called twice')
     }
@@ -38,7 +38,7 @@ export default class BitfinexPriceFeeds {
     }
   }
 
-  async start () {
+  async start() {
     if (!this.feedStorage) {
       throw new Error('Must call init before you can start')
     }
@@ -47,18 +47,18 @@ export default class BitfinexPriceFeeds {
     this._setMinuteTimer()
   }
 
-  async stop () {
+  async stop() {
     clearTimeout(this.minuteTimer)
   }
 
   /// /////////////////////////////////////////////////
   /// /////////////////////////////////////////////////
 
-  _setMinuteTimer () {
+  _setMinuteTimer() {
     this.minuteTimer = setTimeout(() => this._onMinuteTimer(), this._msToNextMinute())
   }
 
-  async _onMinuteTimer () {
+  async _onMinuteTimer() {
     logger.info('Refresh Price Feed')
     const now = new Date()
     const hour = now.getHours()
@@ -89,7 +89,7 @@ export default class BitfinexPriceFeeds {
     this._setMinuteTimer()
   }
 
-  async _updateLivePrice (ticker) {
+  async _updateLivePrice(ticker) {
     try {
       // update the feed
       // https://api-pub.bitfinex.com/v2/ticker/tBTCUSD (7th value is last price)
@@ -104,7 +104,7 @@ export default class BitfinexPriceFeeds {
     }
   }
 
-  async _updateOneDayHistory (ticker) {
+  async _updateOneDayHistory(ticker) {
     try {
       // update the feed. Should have 24 values - one per hour
       // https://api-pub.bitfinex.com/v2/candles/trade:1h:tBTCUSD/hist?limit=24
@@ -119,7 +119,7 @@ export default class BitfinexPriceFeeds {
     }
   }
 
-  async _updateOneWeekHistory (ticker) {
+  async _updateOneWeekHistory(ticker) {
     try {
       // https://api-pub.bitfinex.com/v2/candles/trade:12h:tBTCUSD/hist?limit=64
       const recent = await axios.get(`https://api-pub.bitfinex.com/v2/candles/trade:12h:${ticker.ticker}/hist?limit=64`)
@@ -144,19 +144,19 @@ export default class BitfinexPriceFeeds {
     }
   }
 
-  _msToNextUnit (unit) {
+  _msToNextUnit(unit) {
     const now = Date.now()
-    const nextUnitStartsAt = Math.floor((Math.ceil(now / unit) * unit))
+    const nextUnitStartsAt = Math.floor(Math.ceil(now / unit) * unit)
 
     return nextUnitStartsAt - now
   }
 
-  _msToNextMinute () {
+  _msToNextMinute() {
     // add 10ms, so we always land the right side of the minute
     return this._msToNextUnit(1000 * 60) + 10
   }
 
-  _formatPrice (val) {
+  _formatPrice(val) {
     let v = (+val).toPrecision(5)
     if (v.indexOf('e') >= 0) {
       v = (+v).toString()
@@ -167,4 +167,3 @@ export default class BitfinexPriceFeeds {
     return v
   }
 }
-
