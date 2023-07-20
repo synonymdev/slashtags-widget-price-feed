@@ -25,8 +25,8 @@ export default class BitfinexPriceFeeds {
     const driveKeys = await this.feedStorage.feed(this.driveId, { announce: true })
 
     // Write the images into the feed
-    const imageData = fs.readFileSync('./src/schemas/images/bitfinex.svg')
-    await this.feedStorage.ensureFile(this.driveId, '/images/bitfinex.svg', imageData)
+    const imageData = fs.readFileSync('./src/schemas/images/chart.svg')
+    await this.feedStorage.ensureFile(this.driveId, '/images/chart.svg', imageData)
 
     // this is the hyperdrive that will contain all the feed data
     const url = format(driveKeys.key, { protocol: 'slashfeed:', fragment: { encryptionKey: encode(driveKeys.encryptionKey) } })
