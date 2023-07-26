@@ -1,11 +1,10 @@
-
 class Logger {
-  log (level, msg) {
+  log(level, msg) {
     const now = new Date()
     console.log(`${now.toISOString()} : ${level} ${msg}`)
   }
 
-  asString (msg) {
+  asString(msg) {
     try {
       if (msg === undefined) {
         return '[undefined]'
@@ -29,15 +28,15 @@ class Logger {
     }
   }
 
-  error (msg) {
+  error(msg) {
     this.log('ERROR', this.asString(msg))
   }
 
-  info (msg) {
+  info(msg) {
     this.log('INFO ', this.asString(msg))
   }
 
-  debug (msg) {
+  debug(msg) {
     this.log('DEBUG', this.asString(msg))
   }
 }
