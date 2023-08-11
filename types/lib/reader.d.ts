@@ -35,12 +35,32 @@ declare class BitcoinPriceFeedReader extends Reader {
      * @returns {Promise<Candle[] | null>}
      */
     getPastMonthCandles(pair: Pair): Promise<Candle[] | null>;
+    /**
+     * @param {Pair} pair
+     * @param {(price: number) => void} callback
+     */
+    subscribeLatestPrice(pair: Pair, callback: (price: number) => void): () => void;
+    /**
+     * @param {Pair} pair
+     * @param {(candles: Candle[]) => void} callback
+     */
+    subscribePastDayCandles(pair: Pair, callback: (candles: Candle[]) => void): () => void;
+    /**
+     * @param {Pair} pair
+     * @param {(candles: Candle[]) => void} callback
+     */
+    subscribePastWeekCandles(pair: Pair, callback: (candles: Candle[]) => void): () => void;
+    /**
+     * @param {Pair} pair
+     * @param {(candles: Candle[]) => void} callback
+     */
+    subscribePastMonthCandles(pair: Pair, callback: (candles: Candle[]) => void): () => void;
 }
 declare namespace BitcoinPriceFeedReader {
     export { Pair, TimestampedPrice, Candle };
 }
 import { Reader } from "@synonymdev/feeds";
-type Pair = 'BTCUSD';
+type Pair = 'BTCUSD' | 'BTCEUR' | 'BTCUST' | 'BTCGBP' | 'BTCJPY';
 type TimestampedPrice = {
     price: number;
     timestamp: number;

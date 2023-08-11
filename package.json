@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "start": "node ./index.js",
+    "start": "node ./bin.js",
     "test": "brittle test/*.js -cov",
     "lint": "standard --fix --ignore example/*",
     "build": "tsc",

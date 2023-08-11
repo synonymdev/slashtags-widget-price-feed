@@ -27,6 +27,33 @@ It should print: `Running Bitcoin price feed: slashfeed:<id>/Bitcoin Price?relay
 To read The price feed use the `Reader` helper class.
 
 ```js
-const 
+const { Feed, Reader } = require('slashtags-widget-price-feed')
 
+(async () => {
+  const client = new Client({ storage: './path/to/feed/storage', relay: 'https://web-relay.example.com' })
+  const feed = new Feed(client, config, { icon })
+
+  await feed.ready() 
+
+  const client = new Client({ storage: './path/to/reader/storage'})
+
+  const readerClient = new Client({ storage: tmpdir() })
+  const reader = new Reader(readerClient, feed.url)
+
+  reader.subscribeLatestPrice('BTCUSD', price => {
+    // BTC/USD price (latest)
+  })
+
+  reader.subscribePastDayCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past day
+  })
+
+  reader.subscribePastWeekCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past week
+  })
+
+  reader.subscribePastMonthCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past month
+  })
+})
 ```

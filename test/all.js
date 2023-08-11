@@ -4,9 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const { Client, Relay } = require('@synonymdev/web-relay')
 
-const BitcoinPriceFeed = require('../lib/writer.js')
 const mocks = require('./mocks/bitfinex-api.js')
-const Reader = require('../lib/reader.js')
+const { Reader, Feed } = require('../index.js')
 
 const icon = fs.readFileSync(path.join(__dirname, '../lib/icon.svg'))
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../lib/slashfeed.json'), 'utf8'))
@@ -16,7 +15,7 @@ test('immediate update', async (t) => {
   const address = await relay.listen()
 
   const client = new Client({ storage: tmpdir(), relay: address })
-  const feed = new BitcoinPriceFeed(client, config, { icon })
+  const feed = new Feed(client, config, { icon })
   mock(feed)
 
   await feed.ready()
@@ -33,55 +32,55 @@ test('immediate update', async (t) => {
   t.ok(timestamped.timestamp < Date.now())
   t.is(timestamped.price, mocks.LAST_RESPONSE[6], 'timestamped price')
 
-  const day = await reader.getPastDayCandles('BTCUSD')
-
-  t.alike(
-    day,
-    mocks.ONE_DAY_RESPONSE.sort((a, b) => a[0] - b[0]).slice(0, 24).map(c => ({
-      timestamp: c[0],
-      open: c[1],
-      close: c[2],
-      high: c[3],
-      low: c[4],
-      volume: c[5]
-    })),
-    'day candles'
-  )
-
-  const week = await reader.getPastWeekCandles('BTCUSD')
-  t.alike(
-    week,
-    mocks.ONE_WEEK_RESPONSE_12H.sort((a, b) => a[0] - b[0]).slice(1, 15).map(c => ({
-      timestamp: c[0],
-      open: c[1],
-      close: c[2],
-      high: c[3],
-      low: c[4],
-      volume: c[5]
-    })),
-    'week candles'
-  )
-
-  const month = await reader.getPastMonthCandles('BTCUSD')
-  t.alike(
-    month,
-    mocks.ONE_MONTH_RESPONSE_1D.sort((a, b) => a[0] - b[0]).slice(1, 31).map(c => ({
-      timestamp: c[0],
-      open: c[1],
-      close: c[2],
-      high: c[3],
-      low: c[4],
-      volume: c[5]
-    })),
-    'month candles'
-  )
+  t.snapshot(await reader.getPastDayCandles('BTCUSD'), 'day candles')
+  t.snapshot(await reader.getPastWeekCandles('BTCUSD'), 'week candles')
+  t.snapshot(await reader.getPastMonthCandles('BTCUSD'), 'month candles')
 
   relay.close()
   await feed.close()
 })
 
+test('subscribe', async (t) => {
+  const relay = new Relay(tmpdir())
+  const address = await relay.listen()
+
+  const client = new Client({ storage: tmpdir(), relay: address })
+  const feed = new Feed(client, config, { icon })
+  mock(feed)
+
+  await feed.ready()
+
+  const readerClient = new Client({ storage: tmpdir() })
+  const reader = new Reader(readerClient, feed.url)
+
+  const ts = t.test('subscribe')
+  ts.plan(4)
+
+  reader.subscribeLatestPrice('BTCUSD', price => {
+    ts.is(price, mocks.LAST_RESPONSE[6], 'last price')
+  })
+
+  reader.subscribePastDayCandles('BTCUSD', candles => {
+    ts.snapshot(candles, 'day price')
+  })
+
+  reader.subscribePastWeekCandles('BTCUSD', candles => {
+    ts.snapshot(candles, 'week price')
+  })
+
+  reader.subscribePastMonthCandles('BTCUSD', candles => {
+    ts.snapshot(candles, 'month price')
+  })
+
+  await ts
+
+  relay.close()
+  readerClient.close()
+  feed.close()
+})
+
 /**
- * @param {BitcoinPriceFeed} feed
+ * @param {import('../index.js').Feed} feed
  */
 function mock (feed) {
   feed._fetchLatest = async () => mocks.LAST_RESPONSE
