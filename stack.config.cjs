@@ -14,7 +14,7 @@ module.exports = {
       max_restarts: 10,
       kill_timeout: 30000,
       args: ['--color'],
-      max_memory_restart: '400M',
-    },
-  ],
+      max_memory_restart: '400M'
+    }
+  ]
 }

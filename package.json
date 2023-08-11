@@ -2,23 +2,32 @@
   "name": "slashtags-widget-price-feed",
   "version": "1.0.1",
   "description": "",
-  "main": "src/index.js",
-  "type": "module",
+  "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
-    "start": "nodemon src/index.js",
-    "test": "mocha ./test/"
+    "start": "node ./index.js",
+    "test": "brittle test/*.js -cov",
+    "lint": "standard --fix --ignore example/*",
+    "build": "tsc",
+    "fullcheck": "npm run lint && npm run build && npm run test",
+    "prepublishOnly": "npm run fullcheck"
   },
-  "author": "",
   "license": "MIT",
+  "files": [
+    "index.js",
+    "lib",
+    "types",
+    "!**/*.tsbuildinfo"
+  ],
   "dependencies": {
-    "@synonymdev/feeds": "^1.0.0-alpha.5",
-    "@synonymdev/slashtags-url": "^1.0.0-alpha.2",
-    "axios": "^0.27.2"
+    "@synonymdev/feeds": "github:synonymdev/slashtags-feeds#next",
+    "node-fetch": "^2.6.12"
   },
   "devDependencies": {
-    "mocha": "^10.2.0",
-    "nock": "^13.3.0",
-    "nodemon": "^3.0.1",
-    "random-access-memory": "^6.1.0"
+    "@synonymdev/web-relay": "github:slashtags/web-relay#dev",
+    "@types/node": "^20.4.9",
+    "brittle": "^3.3.2",
+    "standard": "^17.1.0",
+    "typescript": "^5.1.6"
   }
 }
