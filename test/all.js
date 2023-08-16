@@ -24,6 +24,7 @@ test('immediate update', async (t) => {
   const reader = new Reader(readerClient, feed.url)
 
   t.alike(await reader.getConfig(), config)
+  t.alike(await reader.getIcon(), icon)
 
   const lastPrice = await reader.getLatestPrice('BTCUSD')
   const timestamped = await reader.getLatestPriceTimestamped('BTCUSD')

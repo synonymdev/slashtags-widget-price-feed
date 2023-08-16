@@ -8,7 +8,7 @@
     "start": "node ./bin.js",
     "test": "brittle test/*.js -cov",
     "lint": "standard --fix --ignore example/*",
-    "build": "tsc",
+    "build": "rm -rf types && tsc",
     "fullcheck": "npm run lint && npm run build && npm run test",
     "prepublishOnly": "npm run fullcheck"
   },
