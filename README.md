@@ -2,29 +2,58 @@
 
 Provides price information as a slashtags feed.
 
-Data is provided in a hyperdrive that you can replicate to get the latest information.
+## Usage
 
-The drive contains the following files (example feed files are for the BTCUSD pair, but the list of available pairs are listed in the slashfeed.json file)...
+### Feed
 
-```
-slashfeed.json - metadata about the feeds using the type `price_feed`
-feeds/
-    BTCUSD-last - the last update price of the BTCUSD pair. Updated often.
-    BTCUSD-1D - an array of the last 24 hourly candle closing prices (covers the last days trading)
-    BTCUSD-1W - an array of the last 14 12h candle closes (covers 1 weeks trading)
-    BTCUSD-1M - an array of the last 30 daily candle closes (covers 1 month)
+Copy `config/config.example.json` to `config/config.json` then edit the relay address.
+
+```bash
+cp config/config.example.json config/config.json
 ```
 
-Files ending `-last` will contain a single string of the last price. For example '1234.56'.
+Start the feed writer
 
-Files ending `-timestamped_price` will contain array of 2 elements, defined as such:
+```bash
+npm start
+```
 
-1. the unix timestamp as an integer
-2. the last price truncated to the integer part as string
+It will generate a `keyPair` and persist that in `config/config.json` for future sessions.
 
-For example `[1670344382195,'2322400']`.
+It should print: `Running Bitcoin price feed: slashfeed:<id>/Bitcoin Price?relay=<relay-address>`
 
-Files ending `-1D`, `-1W` and `-1M` will contain an array of strings. Oldest value first.
-For example, `[ '1234.45', '1245.78', '1267.78', ... ]`
+### Reader
 
-The public key and encryption key of the drive are published to the logs when the app is started.
+To read The price feed use the `Reader` helper class.
+
+```js
+const { Feed, Reader } = require('slashtags-widget-price-feed')
+
+(async () => {
+  const client = new Client({ storage: './path/to/feed/storage', relay: 'https://web-relay.example.com' })
+  const feed = new Feed(client, config, { icon })
+
+  await feed.ready() 
+
+  const client = new Client({ storage: './path/to/reader/storage'})
+
+  const readerClient = new Client({ storage: tmpdir() })
+  const reader = new Reader(readerClient, feed.url)
+
+  reader.subscribeLatestPrice('BTCUSD', price => {
+    // BTC/USD price (latest)
+  })
+
+  reader.subscribePastDayCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past day
+  })
+
+  reader.subscribePastWeekCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past week
+  })
+
+  reader.subscribePastMonthCandles('BTCUSD', candles => {
+    // BTC/USD price candles for the past month
+  })
+})
+```
