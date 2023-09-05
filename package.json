@@ -1,6 +1,6 @@
 {
-  "name": "slashtags-widget-price-feed",
-  "version": "1.0.1",
+  "name": "@synonymdev/slashtags-widget-price-feed",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -20,11 +20,11 @@
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
-    "@synonymdev/feeds": "github:synonymdev/slashtags-feeds#next",
+    "@synonymdev/feeds": "^2.0.0",
     "node-fetch": "^2.6.12"
   },
   "devDependencies": {
-    "@synonymdev/web-relay": "github:slashtags/web-relay#react-native",
+    "@synonymdev/web-relay": "^1.0.0",
     "@types/node": "^20.4.9",
     "brittle": "^3.3.2",
     "standard": "^17.1.0",
