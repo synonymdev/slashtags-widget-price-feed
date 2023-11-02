@@ -69,11 +69,11 @@ declare namespace BitcoinPriceFeedReader {
 }
 import { Reader } from "@synonymdev/feeds";
 type Pair = 'BTCUSD' | 'BTCEUR' | 'BTCUST' | 'BTCGBP' | 'BTCJPY';
-type Period = '1D' | '1W' | '1M';
 type TimestampedPrice = {
     price: number;
     timestamp: number;
 };
+type Period = '1D' | '1W' | '1M';
 type Candle = {
     timestamp: number;
     open: number;
