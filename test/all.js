@@ -57,27 +57,44 @@ test('subscribe', async (t) => {
   const ts = t.test('subscribe')
   ts.plan(4)
 
+  const tested = {
+    lastprice: false,
+    dayprice: false,
+    weekprice: false,
+    monthprice: false
+  }
+
   reader.subscribeLatestPrice('BTCUSD', price => {
+    if (testedAlready('lastprice')) return
     ts.is(price, mocks.LAST_RESPONSE[6], 'last price')
   })
 
   reader.subscribePastDayCandles('BTCUSD', candles => {
+    if (testedAlready('dayprice')) return
     ts.snapshot(candles, 'day price')
   })
 
   reader.subscribePastWeekCandles('BTCUSD', candles => {
+    if (testedAlready('weekprice')) return
     ts.snapshot(candles, 'week price')
   })
 
   reader.subscribePastMonthCandles('BTCUSD', candles => {
+    if (testedAlready('monthprice')) return
     ts.snapshot(candles, 'month price')
   })
 
+  /** @param {string} name */
+  function testedAlready (name) {
+    if (tested[name]) return true
+    tested[name] = true
+  }
+
   await ts
 
-  relay.close()
   readerClient.close()
   feed.close()
+  relay.close()
 })
 
 /**
